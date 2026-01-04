@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bottlr 2.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        /* Base Palette (Light Mode) */
+        --color-surface: 255 255 255;
+        --color-background: 250 250 250;
+        --color-outline: 224 224 224;
+        --color-text-primary: 33 33 33;
+        --color-text-secondary: 97 97 97;
+        --color-text-tertiary: 158 158 158;
+
+        /* Dynamic Colors (will be updated by React) */
+        --color-primary: 138 79 255; /* Amethyst default */
+        --color-primary-container: 234 221 255;
+        --color-on-primary: 255 255 255;
+        --color-on-primary-container: 37 0 109;
+        
+        /* Font Family */
+        font-family: 'Inter', 'Geist', sans-serif;
+      }
+
+      .dark {
+        /* Base Palette (Dark Mode) */
+        --color-surface: 18 18 18;
+        --color-background: 30 30 30;
+        --color-outline: 51 51 51;
+        --color-text-primary: 255 255 255;
+        --color-text-secondary: 176 176 176;
+        --color-text-tertiary: 112 112 112;
+
+        /* Dynamic Colors (Dark Mode variant) */
+        --color-primary: 191 158 255; /* Lighter Amethyst */
+        --color-primary-container: 74 54 121;
+        --color-on-primary: 50 16 142;
+        --color-on-primary-container: 234 221 255;
+      }
+
+      body {
+        background-color: rgb(var(--color-background));
+        color: rgb(var(--color-text-primary));
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Custom shimmer animation for skeletons */
+      @keyframes shimmer {
+        100% {
+          transform: translateX(100%);
+        }
+      }
+      .shimmer {
+        position: relative;
+        overflow: hidden;
+      }
+      .shimmer::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: translateX(-100%);
+        background-image: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0) 0,
+          rgba(255, 255, 255, 0.2) 20%,
+          rgba(255, 255, 255, 0.5) 60%,
+          rgba(255, 255, 255, 0)
+        );
+        animation: shimmer 2s infinite;
+      }
+      .dark .shimmer::after {
+        background-image: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0) 0,
+          rgba(0, 0, 0, 0.2) 20%,
+          rgba(0, 0, 0, 0.5) 60%,
+          rgba(0, 0, 0, 0)
+        );
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              surface: 'rgb(var(--color-surface) / <alpha-value>)',
+              background: 'rgb(var(--color-background) / <alpha-value>)',
+              outline: 'rgb(var(--color-outline) / <alpha-value>)',
+              primary: 'rgb(var(--color-primary) / <alpha-value>)',
+              'primary-container': 'rgb(var(--color-primary-container) / <alpha-value>)',
+              'on-primary': 'rgb(var(--color-on-primary) / <alpha-value>)',
+              'on-primary-container': 'rgb(var(--color-on-primary-container) / <alpha-value>)',
+              'text-primary': 'rgb(var(--color-text-primary) / <alpha-value>)',
+              'text-secondary': 'rgb(var(--color-text-secondary) / <alpha-value>)',
+              'text-tertiary': 'rgb(var(--color-text-tertiary) / <alpha-value>)',
+            },
+            fontFamily: {
+              sans: ['Inter', 'Geist', 'sans-serif'],
+            },
+            boxShadow: {
+              '1': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              '2': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+              '3': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+              '4': '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+            },
+            fontSize: {
+              'display': ['48px', { lineHeight: '56px', fontWeight: '700' }],
+              'h1': ['32px', { lineHeight: '40px', fontWeight: '700' }],
+              'h2': ['28px', { lineHeight: '36px', fontWeight: '700' }],
+              'h3': ['24px', { lineHeight: '32px', fontWeight: '700' }],
+              'title': ['20px', { lineHeight: '28px', fontWeight: '500' }],
+              'body': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+              'body-sm': ['14px', { lineHeight: '20px', fontWeight: '400' }],
+              'label': ['12px', { lineHeight: '16px', fontWeight: '500', letterSpacing: '0.1em', textTransform: 'uppercase' }],
+            },
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
